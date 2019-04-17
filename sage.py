@@ -13,6 +13,7 @@ def main():
     drainFlux = partB()
     sinkFlux = partC()
     partD(Volume, drainFlux, sinkFlux)
+    partE()
 
 def partA():
     a = integrate(1,z,bottom,0)
@@ -54,5 +55,13 @@ def partD(volume,out,inn):
     print("Time to Drain: ",end='\r')
     print("12/11")
     return 12/11
+
+def partE():
+    c = F.curl([x,y,z])
+    c = c.subs([x==1,y==-2,z==-3])
+    print("The turbine spins at ",end='\r')
+    print(c.norm())
+    print("The axis is ",end='\r')
+    print(c)
 
 main()
