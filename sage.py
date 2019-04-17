@@ -6,9 +6,12 @@ F = vector([1+y^2,5-2*x,z-12])
 
 def main():
     print("Welcome to Adeel's Amazing Sage Project\n")
+
     print("Part A: \nThe Volume of the sink is ",end='\r')
     print(partA())
+
     partB()
+    partC()
 
 def partA():
     a = integrate(1,z,bottom,0)
@@ -20,17 +23,24 @@ def partB():
     fx = derivative(bottom,x)
     fy = derivative(bottom,y)
     drains = solve([fx==0,fy==0],x,y)
-    print(fx)
-    print(fy)
-    print(drains)
     drains = [drains[5],drains[6]]
     
+    #user must manually read solutions, and put them into the code below. 
+
     a = integrate(vector([1+y^2,5-2*x,bottom(1,1)-12]).dot_product(vector([0,0,-1])),y,-sqrt(1-(x-1)^2)+1,sqrt(1-(x-1)^2)+1)
     b = integrate(a,x,0,2)
+    print("Flux through Drain 1: ",end='\r')
     print(b)
     
     c = integrate(vector([1+y^2,5-2*x,bottom(-1,-1)-12]).dot_product(vector([0,0,-1])),y,-sqrt(1-(x+1)^2)-1,sqrt(1-(x+1)^2)-1)
     d = integrate(c,x,-2,0)
+    print("Flux through Drain 2: ",end='\r')
     print(d)
+
+def partC():
+    a = integrate(F.dot_product(vector([0,0,1])),y,-sqrt(1-x^2),sqrt(1-x^2))
+    b = integrate(a,x,-1,1)
+    print("Flux through faucet: ",end='\r')
+    print(b.substitute(z=0))
 
 main()
