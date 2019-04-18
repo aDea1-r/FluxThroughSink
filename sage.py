@@ -1,13 +1,13 @@
 from __future__ import print_function
 
-nwfiufnweo = var ('x y z t')
+nwfiufnweo = var ('x y z t x1 y1')
 bottom = x^4/4+y^4/4-x*y-10
 F = vector([1+y^2,5-2*x,z-12])
 
 def main():
     print("Welcome to Adeel's Amazing Sage Project\n")
 
-    print("Part A: \nThe Volume of the sink is ",end='\r')
+    print("The Volume of the sink is ",end='\r')
     Volume = partA()
 
     drainFlux = partB()
@@ -53,40 +53,48 @@ def partC():
 def partD(volume,out,inn): 
     net = out-inn
     ans = solve(volume==net*t,t)
-    #print(ans[0])
     print("Time to Drain: ",end='\r')
-    print("12/11")
+    print(ans[0])
     return 12/11
 
 def partE():
     c = F.curl([x,y,z])
     c = c.subs([x==1,y==-2,z==-3])
-    print("The turbine spins at ",end='\r')
+    print("Turbine spin: ",end='\r')
     print(c.norm())
     print("The axis is ",end='\r')
     print(c)
 
 def partF():
+    y1 = function('y1')(x1)
     plane = x^2+2*y^2-6
-    grad = vector([diff(plane,x),diff(plane,y)])
     start = vector([1,1,-3])
     dydx = diff(plane,y) / diff(plane,x)
-    print(dydx)
+    sol = desolve(diff(y1,x1)==(dydx.substitute(x=x1,y=y1)),y1,ics=[1,1]).substitute(x1=x)
+    parmX(t) = t
+    parmY(t) = sol.substitute(x=t)
+    parmZ(t) = plane.substitute(x=t, y=t^2)
+    r = start + t * vector([parmX(t),parmY(t),parmZ(t)])
+    print("The parametric equations are ",end='\r')
+    print(r)
 
 def partK():
-    b = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
+    v = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
     maxFlux = 0
     hmin = 0
     kmin = 0
     for h in range(-3,3):
         for k in range(-3,3):
-            a = integrate(vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y]).dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k)
+            a = integrate(v.dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k)
             b = integrate(a,x,h-1,h+1)
             if(abs(b)>abs(maxFlux)):
                 hmin = h
                 kmin = k
             maxFlux = max(abs(b),abs(maxFlux))
-    print(hmin)
-    print(kmin)
+    print("The fastest drainage is at: (",end='\r')
+    print(hmin, end='\r')
+    print(",",end='\r')
+    print(kmin,end='\r')
+    print(")")
 
 main()
