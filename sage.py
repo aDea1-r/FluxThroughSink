@@ -14,6 +14,8 @@ def main():
     sinkFlux = partC()
     partD(Volume, drainFlux, sinkFlux)
     partE()
+    partF()
+    partK()
 
 def partA():
     a = integrate(1,z,bottom,0)
@@ -63,5 +65,28 @@ def partE():
     print(c.norm())
     print("The axis is ",end='\r')
     print(c)
+
+def partF():
+    plane = x^2+2*y^2-6
+    grad = vector([diff(plane,x),diff(plane,y)])
+    start = vector([1,1,-3])
+    dydx = diff(plane,y) / diff(plane,x)
+    print(dydx)
+
+def partK():
+    b = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
+    maxFlux = 0
+    hmin = 0
+    kmin = 0
+    for h in range(-3,3):
+        for k in range(-3,3):
+            a = integrate(vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y]).dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k)
+            b = integrate(a,x,h-1,h+1)
+            if(abs(b)>abs(maxFlux)):
+                hmin = h
+                kmin = k
+            maxFlux = max(abs(b),abs(maxFlux))
+    print(hmin)
+    print(kmin)
 
 main()
