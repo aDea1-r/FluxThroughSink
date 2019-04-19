@@ -17,11 +17,11 @@ def main():
     sinkFlux = partC()
     partD(Volume, drainFlux, sinkFlux)
     partE()
-    partF()
+    path = partF()
     partG()
     partH(Volume)
     partI()
-    graph = partJ()
+    graph = partJ(path)
     partK()
     return graph
 
@@ -85,6 +85,7 @@ def partF():
     r = start + t * vector([parmX(t),parmY(t),parmZ(t)])
     print("The parametric equations are ",end='\r')
     print(r)
+    return r
 
 def partG():
     print("Frenet-Serret frames r gay")
@@ -110,10 +111,19 @@ def partI():
     print("The pressure on each drain is: ",end='\r')
     print(c)
 
-def partJ():
-    a = implicit_plot3d(z==bottom,(x,-2,2),(y,-2,2),(z,-11,0),region = lambda x,y,z : (abs(y) <= sqrt(4-x^2))) #sink bottom
-    b = implicit_plot3d(x^2+y^2==4,(x,-2,2),(y,-2,2),(z,-11,0), region = lambda x,y,z : (z >= bottom(x,y)))
-    return a + b
+def isBottom(x,y,z):
+    drain1 = (x-1)^2 + (y-1)^2 <= 1
+    drain2 = (x+1)^2 + (y+1)^2 <= 1
+    inside = abs(y) <= sqrt(4-x^2)
+    return inside and not (drain1 or drain2)
+
+def partJ(path):
+    a = implicit_plot3d(z==bottom,(x,-2,2),(y,-2,2),(z,-11,0),color = 'aquamarine', region = lambda x,y,z : isBottom(x,y,z)) #sink bottom
+    b = implicit_plot3d(x^2+y^2==4,(x,-2,2),(y,-2,2),(z,-11,0), color = 'aquamarine', region = lambda x,y,z : (z >= x^4/4+y^4/4-x*y-10)) #sink sides
+    c = plot_vector_field3d([F[0],F[1],F[2]],(x,-2,2),(y,-2,2),(z,-11,0), plot_points=5, colors='blue') #water flow
+    d = implicit_plot3d(z==0, (x,-2,2), (y,-2,2), (z,-1,1), color = 'brown', region = lambda x,y,z : x^2+y^2<=1 )
+    e = parametric_plot3d(path, (-1,1), color = 'red')
+    return a + b + c + d + e
 
 def partK():
     v = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
