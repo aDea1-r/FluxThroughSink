@@ -81,7 +81,7 @@ def partF():
     sol = desolve(diff(y1,x1)==(dydx.substitute(x=x1,y=y1)),y1,ics=[1,1]).substitute(x1=x)
     parmX(t) = t
     parmY(t) = sol.substitute(x=t)
-    parmZ(t) = plane.substitute(x=t, y=t^2)
+    parmZ(t) = plane.substitute(x=t, y=parmY(t))
     r = start + t * vector([parmX(t),parmY(t),parmZ(t)])
     print("The parametric equations are ",end='\r')
     print(r)
