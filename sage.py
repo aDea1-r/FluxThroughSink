@@ -1,8 +1,11 @@
 from __future__ import print_function
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 nwfiufnweo = var ('x y z t x1 y1')
 bottom = x^4/4+y^4/4-x*y-10
 F = vector([1+y^2,5-2*x,z-12])
+p = 2*x^2 + y^2 - z
 
 def main():
     print("Welcome to Adeel's Amazing Sage Project\n")
@@ -15,6 +18,10 @@ def main():
     partD(Volume, drainFlux, sinkFlux)
     partE()
     partF()
+    partG()
+    partH(Volume)
+    partI()
+    partJ()
     partK()
 
 def partA():
@@ -30,7 +37,7 @@ def partB():
     drains = solve([fx==0,fy==0],x,y)
     drains = [drains[5],drains[6]]
     
-    #user must manually read solutions, and put them into the code below. 
+    #user must manually read solutions, and put them into the code below. Drain1: 1,1 Drain2: -1,-1
 
     a = integrate(vector([1+y^2,5-2*x,bottom(1,1)-12]).dot_product(vector([0,0,-1])),y,-sqrt(1-(x-1)^2)+1,sqrt(1-(x-1)^2)+1)
     b = integrate(a,x,0,2)
@@ -77,6 +84,34 @@ def partF():
     r = start + t * vector([parmX(t),parmY(t),parmZ(t)])
     print("The parametric equations are ",end='\r')
     print(r)
+
+def partG():
+    print("Frenet-Serret frames r gay")
+
+def partH(v):
+    a = integrate(p,z,bottom,0)
+    b = integrate(a,y,-sqrt(4-x^2),sqrt(4-x^2))
+    m = integrate(b,x,-2,2)
+    print("The mass of the liquid is: ",end='\r')
+    print(m)
+    print("The average density is: ",end='\r')
+    print(m/v)
+
+def partI():
+    a = integrate(p,z,bottom,0)
+    b = integrate(a,y,-sqrt(1-(x-1)^2)+1,sqrt(1-(x-1)^2)+1)
+    c = integrate(b,x,0,2)
+
+    d = integrate(p,z,bottom,0)
+    e = integrate(d,y,-sqrt(1-(x+1)^2)-1,sqrt(1-(x+1)^2)-1)
+    f = integrate(e,x,-2,0)
+
+    print("The pressure on each drain is: ",end='\r')
+    print(c)
+
+def partJ():
+    a = implicit_plot3d(z==bottom,(x,-2,2),(y,-sqrt(4-x^2),sqrt(4-x^2)),(z,bottom,0))
+    a
 
 def partK():
     v = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
