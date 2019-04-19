@@ -21,8 +21,9 @@ def main():
     partG()
     partH(Volume)
     partI()
-    partJ()
+    graph = partJ()
     partK()
+    return graph
 
 def partA():
     a = integrate(1,z,bottom,0)
@@ -110,8 +111,9 @@ def partI():
     print(c)
 
 def partJ():
-    a = implicit_plot3d(z==bottom,(x,-2,2),(y,-sqrt(4-x^2),sqrt(4-x^2)),(z,bottom,0))
-    a
+    a = implicit_plot3d(z==bottom,(x,-2,2),(y,-2,2),(z,-11,0),region = lambda x,y,z : (abs(y) <= sqrt(4-x^2))) #sink bottom
+    b = implicit_plot3d(x^2+y^2==4,(x,-2,2),(y,-2,2),(z,-11,0), region = lambda x,y,z : (z >= bottom(x,y)))
+    return a + b
 
 def partK():
     v = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
