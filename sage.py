@@ -18,7 +18,7 @@ def main():
     partD(Volume, drainFlux, sinkFlux)
     partE()
     path = partF()
-    partG()
+    partG(path)
     partH(Volume)
     partI()
     graph = partJ(path)
@@ -87,8 +87,11 @@ def partF():
     print(r)
     return r
 
-def partG():
-    print("Frenet-Serret frames r gay")
+def partG(path):
+    T = diff(path,t) / diff(path,t).norm()
+    N = diff(T,t) / diff(T,t).norm()
+    B = T.cross_product(N)
+    print("The unit tangent vector is " + str(T) + "\n and the unit normal vector is " + str(N) + "\nand the unit binormal is " + str(B))
 
 def partH(v):
     a = integrate(p,z,bottom,0)
