@@ -91,7 +91,7 @@ def partG(path):
     T = diff(path,t) / diff(path,t).norm()
     N = diff(T,t) / diff(T,t).norm()
     B = T.cross_product(N)
-    print("The unit tangent vector is " + str(T) + "\n and the unit normal vector is " + str(N) + "\nand the unit binormal is " + str(B))
+    print("The unit tangent vector is " + str(T.subs(t=1)) + "\nand the unit normal vector is " + str(N.subs(t=1)) + "\nand the unit binormal is " + str(B.subs(t=1)))
 
 def partH(v):
     a = integrate(p,z,bottom,0)
@@ -103,13 +103,13 @@ def partH(v):
     print(m/v)
 
 def partI():
-    a = integrate(p,z,bottom,0)
+    a = integrate(p,z,bottom(1,1),0)
     b = integrate(a,y,-sqrt(1-(x-1)^2)+1,sqrt(1-(x-1)^2)+1)
-    c = integrate(b,x,0,2)
+    c = integrate(b,x,0,2) * 9.8
 
-    d = integrate(p,z,bottom,0)
+    d = integrate(p,z,bottom(-1,-1),0)
     e = integrate(d,y,-sqrt(1-(x+1)^2)-1,sqrt(1-(x+1)^2)-1)
-    f = integrate(e,x,-2,0)
+    f = integrate(e,x,-2,0) * 9.8
 
     print("The pressure on the drains is: ",end='\r')
     print(c+f)
@@ -129,23 +129,23 @@ def partJ(path):
     return a + b + c + d + e
 
 def partK():
-    v = vector([1+y^2,5-2*x,x-y^2/2-x^3/5+y])
+    v = vector([1+y^2,5-2*x,-x+y^2/2+x^3/5-y])
     maxFlux = 0
     hmin = 0
     kmin = 0
     for h in range(-3,3):
         for k in range(-3,3):
-            a = integrate(v.dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k)
+            a = integrate(v.dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k )
             b = integrate(a,x,h-1,h+1)
-            if(abs(b)>abs(maxFlux)):
+            if(b>maxFlux):
                 hmin = h
                 kmin = k
-            maxFlux = max(abs(b),abs(maxFlux))
+            maxFlux = max(b,maxFlux)
     print("The fastest drainage is at: (",end='\r')
     print(hmin, end='\r')
     print(",",end='\r')
     print(kmin,end='\r')
     print(")")
-    #print(maxFlux)
+    print(maxFlux)
 
 main()
