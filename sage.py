@@ -82,7 +82,7 @@ def partF():
     parmX(t) = t
     parmY(t) = sol.substitute(x=t)
     parmZ(t) = plane.substitute(x=t, y=parmY(t))
-    r = start + t * vector([parmX(t),parmY(t),parmZ(t)])
+    r = vector([parmX(t),parmY(t),parmZ(t)])
     print("The parametric equations are ",end='\r')
     print(r)
     return r
@@ -111,8 +111,8 @@ def partI():
     e = integrate(d,y,-sqrt(1-(x+1)^2)-1,sqrt(1-(x+1)^2)-1)
     f = integrate(e,x,-2,0)
 
-    print("The pressure on each drain is: ",end='\r')
-    print(c)
+    print("The pressure on the drains is: ",end='\r')
+    print(c+f)
 
 def isBottom(x,y,z):
     drain1 = (x-1)^2 + (y-1)^2 <= 1
@@ -146,5 +146,6 @@ def partK():
     print(",",end='\r')
     print(kmin,end='\r')
     print(")")
+    #print(maxFlux)
 
 main()
