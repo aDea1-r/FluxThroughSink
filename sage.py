@@ -141,10 +141,16 @@ def partK():
                 hmin = h
                 kmin = k
             maxFlux = max(b,maxFlux)
+    h = hmin
+    k = kmin
+    a = integrate(v.dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k )
+    b = integrate(a,x,h-1,h+1)
     print("The fastest drainage is at: (",end='\r')
     print(hmin, end='\r')
     print(",",end='\r')
     print(kmin,end='\r')
     print(")")
+    print(b)
+    print(maxFlux)
 
 main()
