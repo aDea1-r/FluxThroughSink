@@ -129,7 +129,7 @@ def partJ(path):
     return a + b + c + d + e
 
 def partK():
-    v = vector([1+y^2,5-2*x,-x+y^2/2+x^3/5-y])
+    v = vector([1+y^2,5-2*x,-x+y^2/2+x^3/3-y])
     maxFlux = 0
     hmin = 0
     kmin = 0
@@ -141,16 +141,11 @@ def partK():
                 hmin = h
                 kmin = k
             maxFlux = max(b,maxFlux)
-    h = hmin
-    k = kmin
-    a = integrate(v.dot_product(vector([0,0,-1])),y,-sqrt(1-(x-h)^2)+k,sqrt(1-(x-h)^2)+k )
-    b = integrate(a,x,h-1,h+1)
     print("The fastest drainage is at: (",end='\r')
     print(hmin, end='\r')
     print(",",end='\r')
     print(kmin,end='\r')
-    print(")")
-    print(b)
+    print(") with a flux of ",end='\r')
     print(maxFlux)
 
 main()
