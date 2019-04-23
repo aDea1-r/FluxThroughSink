@@ -146,6 +146,5 @@ def partK():
     print(",",end='\r')
     print(kmin,end='\r')
     print(")")
-    print(maxFlux)
 
 main()
